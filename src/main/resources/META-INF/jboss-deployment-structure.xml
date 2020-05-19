@@ -1,7 +1,8 @@
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
     <deployment>
         <dependencies>
-            <module name="org.mindrot.jbcrypt" />
+            <module name="at.favre.lib.bytes" />
+            <module name="at.favre.lib.crypto.bcrypt" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
