@@ -1,6 +1,5 @@
 package com.github.leroyguillaume.keycloak.bcrypt;
 
-import org.jboss.logging.Logger;
 import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.credential.hash.PasswordHashProvider;
 import org.keycloak.models.PasswordPolicy;
@@ -12,12 +11,10 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 public class BCryptPasswordHashProvider implements PasswordHashProvider {
     private final int defaultIterations;
     private final String providerId;
-    private final Logger log;
 
     public BCryptPasswordHashProvider(String providerId, int defaultIterations) {
         this.providerId = providerId;
         this.defaultIterations = defaultIterations;
-        log = Logger.getLogger(BCryptPasswordHashProvider.class);
     }
 
     @Override
@@ -54,16 +51,11 @@ public class BCryptPasswordHashProvider implements PasswordHashProvider {
     public boolean verify(String rawPassword, PasswordCredentialModel credential) {
         BCrypt.Version hashVersion = BCrypt.Version.VERSION_2A;
         String securedPassword = credential.getPasswordSecretData().getValue();
-        log.info(securedPassword);
         if (securedPassword.startsWith("$2y$")) {
-            log.info("2Y");
             hashVersion = BCrypt.Version.VERSION_2Y;
         } else if (securedPassword.startsWith("$2b$")) {
             hashVersion = BCrypt.Version.VERSION_2B;
-            log.info("2B");
-        } else {
-            log.info("2A");
-        }
+        } 
         return BCrypt.verifyer(hashVersion).verify(rawPassword.toCharArray(), securedPassword).verified;
     }
 }
