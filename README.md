@@ -15,7 +15,7 @@ $KEYCLOAK_HOME/bin/jboss-cli.sh --command="module add --name=at.favre.lib.bytes 
 curl https://repo1.maven.org/maven2/at/favre/lib/bcrypt/0.9.0/bcrypt-0.9.0.jar > bcrypt-0.9.0.jar
 $KEYCLOAK_HOME/bin/jboss-cli.sh --command="module add --name=at.favre.lib.crypto.bcrypt --resources=bcrypt-0.9.0.jar --dependencies=at.favre.lib.bytes"
 
-curl -L https://github.com/quangpq/keycloak-bcrypt/releases/download/1.3.0/keycloak-bcrypt-1.3.0.jar > $KEYCLOAK_HOME/standalone/deployments/keycloak-bcrypt-1.3.0.jar
+curl -L https://github.com/quangpq/keycloak-bcrypt/releases/download/1.3.1/keycloak-bcrypt-1.3.1.jar > $KEYCLOAK_HOME/standalone/deployments/keycloak-bcrypt-1.3.1.jar
 
 ```
 You need to restart Keycloak.
@@ -42,7 +42,7 @@ Add the following `module.xml` file in directory created above:
 
 `mkdir -p ./keycloak/bcrypt/deployments`
 
-`curl -L https://github.com/quangpq/keycloak-bcrypt/releases/download/1.3.0/keycloak-bcrypt-1.3.0.jar > ./keycloak/bcrypt/deployments`
+`curl -L https://github.com/quangpq/keycloak-bcrypt/releases/download/1.3.1/keycloak-bcrypt-1.3.1.jar > ./keycloak/bcrypt/deployments`
 
 
 docker-compose.yml
