@@ -38,8 +38,13 @@ public class BCryptPasswordHashProvider implements PasswordHashProvider {
 
     @Override
     public String encode(String rawPassword, int iterations) {
-        int cost = iterations < 1 ? defaultIterations : iterations;
-        return BCrypt.with(BCrypt.Version.VERSION_2B).hashToString(cost, rawPassword.toCharArray());
+        int cost;
+        if (iterations == -1) {
+            cost = defaultIterations;
+        } else {
+            cost = iterations;
+        }
+        return BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(cost, rawPassword.toCharArray());
     }
 
     @Override
@@ -50,12 +55,13 @@ public class BCryptPasswordHashProvider implements PasswordHashProvider {
     @Override
     public boolean verify(String rawPassword, PasswordCredentialModel credential) {
         BCrypt.Version hashVersion = BCrypt.Version.VERSION_2A;
-        String securedPassword = credential.getPasswordSecretData().getValue();
-        if (securedPassword.startsWith("$2y$")) {
+        final String hash = credential.getPasswordSecretData().getValue();
+        if (hash.startsWith("$2y$")) {
             hashVersion = BCrypt.Version.VERSION_2Y;
-        } else if (securedPassword.startsWith("$2b$")) {
+        } else if (hash.startsWith("$2b$")) {
             hashVersion = BCrypt.Version.VERSION_2B;
         } 
-        return BCrypt.verifyer(hashVersion).verify(rawPassword.toCharArray(), securedPassword).verified;
+        BCrypt.Result verifier = BCrypt.verifyer(hashVersion).verify(rawPassword.toCharArray(), hash.toCharArray());
+        return verifier.verified;
     }
 }
