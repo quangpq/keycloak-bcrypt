@@ -1,4 +1,4 @@
-package com.github.quangpq.keycloak.bcrypt;
+package com.github.leroyguillaume.keycloak.bcrypt;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
