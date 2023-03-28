@@ -1,3 +1,22 @@
-FROM jboss/keycloak:10.0.1
+ARG keycloak_version
 
-COPY ./keycloak-bcrypt-1.5.1.jar /opt/jboss/keycloak/standalone/deployments/
+FROM quay.io/keycloak/keycloak:${keycloak_version} as builder
+
+# Enable health and metrics support
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+
+# Configure a database vendor
+ENV KC_DB=mariadb
+
+ARG keycloak_bcrypt_version=1.5.4.1
+COPY ./keycloak-bcrypt-${keycloak_bcrypt_version}.jar /opt/keycloak/providers/
+
+WORKDIR /opt/keycloak
+RUN /opt/keycloak/bin/kc.sh build
+
+FROM quay.io/keycloak/keycloak:${keycloak_version}
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+ENV KC_DB=mariadb
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]

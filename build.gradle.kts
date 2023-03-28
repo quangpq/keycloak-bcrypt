@@ -3,16 +3,23 @@ plugins {
 }
 
 group = "com.github.leroyguillaume"
-version = "1.5.1"
+version = "1.5.4.1"
 
 repositories {
     mavenCentral()
 }
 
+configurations {
+    testImplementation.get().apply {
+        extendsFrom(configurations.compileOnly.get())
+    }
+}
+
 dependencies {
-    val bcryptVersion = "0.9.0"
+    val bcryptVersion = "0.10.2"
     val jbossLoggingVersion = "3.4.1.Final"
-    val keycloakVersion = "10.0.1"
+    val keycloakVersion = project.property("dependency.keycloak.version")
+    val junitVersion = "5.8.2"
 
     // BCrypt
     implementation("at.favre.lib:bcrypt:$bcryptVersion")
@@ -25,9 +32,18 @@ dependencies {
     compileOnly("org.keycloak:keycloak-core:$keycloakVersion")
     compileOnly("org.keycloak:keycloak-server-spi:$keycloakVersion")
     compileOnly("org.keycloak:keycloak-server-spi-private:$keycloakVersion")
+
+    // JUnit
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
 tasks {
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     jar {
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }) {
             exclude("META-INF/MANIFEST.MF")
@@ -39,5 +55,9 @@ tasks {
 
     wrapper {
         gradleVersion = "6.4"
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
