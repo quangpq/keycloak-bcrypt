@@ -11,6 +11,11 @@ ENV KC_DB=mariadb
 
 ARG keycloak_bcrypt_version=1.5.4.1
 COPY ./keycloak-bcrypt-${keycloak_bcrypt_version}.jar /opt/keycloak/providers/
+COPY ./nashorn-core-15.4.jar /opt/keycloak/providers/nashorn-core-15.4.jar
+COPY ./asm-7.3.1.jar /opt/keycloak/providers/asm-7.3.1.jar
+COPY ./asm-commons-7.3.1.jar /opt/keycloak/providers/asm-commons-7.3.1.jar
+COPY ./asm-tree-7.3.1.jar /opt/keycloak/providers/asm-tree-7.3.1.jar
+COPY ./asm-util-7.3.1.jar /opt/keycloak/providers/asm-util-7.3.1.jar
 
 WORKDIR /opt/keycloak
 RUN /opt/keycloak/bin/kc.sh build
