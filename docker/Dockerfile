@@ -9,7 +9,7 @@ ENV KC_METRICS_ENABLED=true
 # Configure a database vendor
 ENV KC_DB=mariadb
 
-ARG keycloak_bcrypt_version=1.5.4.1
+ARG keycloak_bcrypt_version=1.5.5
 COPY ./keycloak-bcrypt-${keycloak_bcrypt_version}.jar /opt/keycloak/providers/
 COPY ./nashorn-core-15.4.jar /opt/keycloak/providers/nashorn-core-15.4.jar
 COPY ./asm-7.3.1.jar /opt/keycloak/providers/asm-7.3.1.jar
