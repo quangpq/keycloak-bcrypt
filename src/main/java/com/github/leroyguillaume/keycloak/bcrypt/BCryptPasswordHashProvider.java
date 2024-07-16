@@ -27,14 +27,13 @@ public class BCryptPasswordHashProvider implements PasswordHashProvider {
 
     @Override
     public PasswordCredentialModel encodedCredential(final String rawPassword, final int iterations) {
-        final String encodedPassword = encode(rawPassword, iterations);
+        final String encodedPassword = encodePassword(rawPassword, iterations);
 
         // bcrypt salt is stored as part of the encoded password so no need to store salt separately
         return PasswordCredentialModel.createFromValues(providerId, new byte[0], iterations, encodedPassword);
     }
 
-    @Override
-    public String encode(final String rawPassword, final int iterations) {
+    public String encodePassword(final String rawPassword, final int iterations) {
         final int cost = iterations == -1 ? defaultIterations : iterations;
         return BCrypt.with(BCrypt.Version.VERSION_2A).hashToString(cost, rawPassword.toCharArray());
     }

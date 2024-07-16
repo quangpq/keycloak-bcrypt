@@ -15,7 +15,7 @@ class BCryptPasswordHashProviderTest {
     @DisplayName("Should hash the password successfully")
     void shouldHashThePasswordSuccessfully() {
         String rawPassword = "test";
-        String hashedPassword = provider.encode(rawPassword, iterations);
+        String hashedPassword = provider.encodePassword(rawPassword, iterations);
         PasswordCredentialModel model = PasswordCredentialModel.createFromValues(id, new byte[0], iterations, hashedPassword);
 
         assertNotNull(hashedPassword);
