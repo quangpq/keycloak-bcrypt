@@ -12,12 +12,11 @@ Use https://github.com/patrickfav/bcrypt instead of JBCrypt.
 ## Build Docker image
 
 ```bash
-cp build/libs/keycloak-bcrypt-${KEYCLOAK_BCRYPT_VERSION}.jar docker
 docker build \
     --build-arg keycloak_version=${KEYCLOAK_VERSION} \
     --build-arg keycloak_bcrypt_version=${KEYCLOAK_BCRYPT_VERSION} \
     -t quangpq/keycloak-bcrypt \
-    docker
+    .
 ```
 
 ## Test with docker-compose
