@@ -3,17 +3,15 @@
 build
 
 # IDE
+/bin
 .idea
+.vscode
 *.iml
 
 # Maven
 target
 .classpath
 .project
-
-
-# Docker
-docker/*.jar
 
 .vscode
 .DS_Store
